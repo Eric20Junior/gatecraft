@@ -1,0 +1,59 @@
+{
+  "name": "gatecraft",
+  "version": "1.0.0",
+  "description": "The AI Engineering Operating System — install a complete engineering loop, quality gates, and 26 specialist roles into any repository. Hidden, gitignored, zero dependencies.",
+  "keywords": [
+    "ai",
+    "agents",
+    "agentic",
+    "claude",
+    "cursor",
+    "copilot",
+    "codex",
+    "agents-md",
+    "engineering",
+    "code-quality",
+    "code-review",
+    "workflow",
+    "adr",
+    "checklist",
+    "prompt-engineering",
+    "developer-tools"
+  ],
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "gatecraft": "bin/gatecraft.js"
+  },
+  "main": "src/cli.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "payload/",
+    "install.sh",
+    "README.md",
+    "LICENSE",
+    "TRADEMARK.md"
+  ],
+  "scripts": {
+    "test": "node --test test/",
+    "lint": "node --check bin/gatecraft.js && node -e \"require('fs').readdirSync('src',{recursive:true}).filter(f=>f.endsWith('.js')).forEach(f=>require('child_process').execFileSync(process.execPath,['--check','src/'+f]))\"",
+    "verify:payload": "node scripts/verify-payload.js",
+    "prepublishOnly": "npm run lint && npm test && npm run verify:payload"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eric20Junior/gatecraft.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Eric20Junior/gatecraft/issues"
+  },
+  "homepage": "https://github.com/Eric20Junior/gatecraft#readme",
+  "publishConfig": {
+    "access": "public"
+  }
+}

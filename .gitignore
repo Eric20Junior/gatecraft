@@ -1,0 +1,36 @@
+# Dependencies (there are none at runtime, but dev tooling and npx leave these)
+node_modules/
+package-lock.json
+
+# Build and publish artifacts
+*.tgz
+dist/
+coverage/
+.nyc_output/
+
+# Test scratch space
+test/tmp/
+test/fixtures/**/.ai/
+test/fixtures/**/AGENTS.md
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# This repository *is* gatecraft, so a self-install here would be confusing rather
+# than useful. Ignore one if it appears from testing.
+/.ai/

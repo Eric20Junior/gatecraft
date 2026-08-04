@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/Eric20Junior/gatecraft/security/advisories/new
+    about: Report privately. Do not open a public issue for anything security-related.
+  - name: Questions and ideas
+    url: https://github.com/Eric20Junior/gatecraft/discussions
+    about: For "how do I…", "should this…", and anything not yet a concrete bug or proposal.
+  - name: Trademark and naming
+    url: mailto:trademark@gatecraft.dev
+    about: To name a product, package, or fork using "Gatecraft". The code is MIT and needs no permission; the name does.

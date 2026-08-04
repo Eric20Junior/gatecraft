@@ -1,0 +1,86 @@
+name: Framework change
+description: Propose a change to the engineering standards, workflows, checklists, or other framework documents
+labels: [framework]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The framework documents are the product, and text here gets followed by
+        thousands of agents. Proposals are held to the bar in
+        [CONTRIBUTING.md](https://github.com/Eric20Junior/gatecraft/blob/main/CONTRIBUTING.md):
+        RFC 2119 keywords, a stated reason for every MUST, and a specific failure
+        rather than a general principle.
+
+  - type: dropdown
+    id: document
+    attributes:
+      label: Which document
+      options:
+        - STANDARDS.md
+        - WORKFLOW.md
+        - CHECKLISTS.md
+        - AGENTS.md (roles)
+        - SYSTEM.md
+        - PROMPTS.md
+        - TEMPLATES.md
+        - PLAYBOOKS.md
+        - KNOWLEDGE.md
+        - GLOSSARY.md
+        - PROJECT_CONTEXT.md
+        - a new document
+        - other / not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: current
+    attributes:
+      label: What it says now
+      description: Quote the existing text, with its section number. Write "nothing — this is missing" if you are proposing an addition.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed
+    attributes:
+      label: What it should say
+      description: The replacement text, written as it would ship. MUST/SHOULD/MAY per RFC 2119.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: |
+        What goes wrong under the current text. A concrete failure an agent
+        produced is far more persuasive than an argument from principle — and it
+        is what the standard needs to contain anyway.
+      placeholder: |
+        An agent read §11 and cached a per-user response in a shared cache key,
+        leaking one user's data to another. The standard says "cache expensive
+        reads" without saying anything about key scoping.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: applicability
+    attributes:
+      label: Does this hold for every stack?
+      description: The framework must read correctly in a Rust service, a Django monolith, and a Swift app. Stack-specific rules belong in `.ai/standards/` as an opt-in override.
+      options:
+        - Yes — it is technology-agnostic
+        - No — it applies to one ecosystem, and should be an override instead
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: gate
+    attributes:
+      label: How would you falsify it?
+      description: |
+        Every gate in this framework has to be falsifiable — if you cannot say
+        what evidence would fail the check, the check is not written well yet.
+    validations:
+      required: false

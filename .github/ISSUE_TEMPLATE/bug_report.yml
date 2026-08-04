@@ -1,0 +1,91 @@
+name: Bug report
+description: Something in the CLI or the framework does not work as documented
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting. The two `gatecraft` commands below are most of a
+        diagnosis on their own — please paste them rather than describing them.
+
+        **Security issues do not belong here.** See [SECURITY.md](https://github.com/Eric20Junior/gatecraft/blob/main/SECURITY.md).
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, and what you got instead.
+      placeholder: |
+        I ran `npx gatecraft upgrade` and it replaced my edited STANDARDS.md.
+        I expected it to be preserved, because the manifest records its hash.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: The smallest sequence that shows the problem, starting from an empty directory if possible.
+      placeholder: |
+        1. mkdir demo && cd demo && git init
+        2. npx gatecraft init
+        3. echo "custom rule" >> .ai/STANDARDS.md
+        4. npx gatecraft upgrade
+    validations:
+      required: true
+
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Output of `npx gatecraft doctor`
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: status
+    attributes:
+      label: Output of `npx gatecraft status`
+      render: shell
+    validations:
+      required: false
+
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: "`npx gatecraft --version`, plus `node --version` and your OS."
+      placeholder: gatecraft 1.0.0, node 20.11.0, macOS 14.4
+    validations:
+      required: true
+
+  - type: dropdown
+    id: install
+    attributes:
+      label: How was it installed
+      options:
+        - npx gatecraft init
+        - npm install -g gatecraft
+        - curl | sh (install.sh)
+        - other
+    validations:
+      required: true
+
+  - type: input
+    id: agent
+    attributes:
+      label: Which coding agent
+      description: If the problem involves an agent's behaviour rather than the CLI.
+      placeholder: Claude Code / Cursor / Copilot / not applicable
+    validations:
+      required: false
+
+  - type: textarea
+    id: data-loss
+    attributes:
+      label: Did this lose any of your work?
+      description: |
+        If a file you wrote was overwritten, deleted, or reverted, say so here —
+        those are treated as the highest severity in this project.
+    validations:
+      required: false
