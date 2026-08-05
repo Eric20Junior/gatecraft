@@ -183,7 +183,21 @@ async function run({ flags }) {
       const r = gitignore.ensure(root, lines);
       m.gitignore.managed = true;
       m.gitignore.mode = mode;
-      if (mode === 'share') ui.ok('.gitignore — framework hidden, project memory shared');
+      if (mode === 'share') {
+        // Only claim the share worked if git will honour it. An existing rule
+        // that excludes the whole directory makes every negation we just wrote
+        // inert, and reporting success anyway is how a team discovers months
+        // later that none of their context was ever committed.
+        const conflict = gitignore.conflictingRule(root);
+        if (conflict) {
+          ui.warn('.gitignore — framework hidden, but project memory is NOT shared');
+          ui.note(`line ${conflict.line} (${conflict.text}) excludes all of .ai/`);
+          ui.note('git cannot re-include a file inside an excluded directory');
+          ui.note(`remove that line to share project memory as --share intends`);
+        } else {
+          ui.ok('.gitignore — framework hidden, project memory shared');
+        }
+      }
       else ui.ok(`.gitignore — ${r.created ? 'created, ' : ''}.ai/ hidden from git`);
     } else {
       ui.info('.gitignore untouched — all of .ai/ is tracked (--track)');

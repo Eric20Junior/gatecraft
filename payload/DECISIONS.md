@@ -364,3 +364,84 @@ accumulated memory, which is why it is version-controlled.
 
 *(To be appended after the first review. Record whether recurrence actually dropped,
 whether the documents drifted, and which sections were never read.)*
+
+---
+
+## ADR-0002: Share mode commits project knowledge, hides the framework kernel
+
+**Date:** 2026-08-05  
+**Status:** Accepted  
+**Deciders:** CTO, System Architect  
+**Tags:** git, collaboration, installation
+
+### Context and Problem
+
+A developer installs gatecraft with `--yes`, filling in PROJECT_CONTEXT.md and recording
+decisions in `.ai/DECISIONS.md` and `.ai/memory/`. A teammate clones the repository
+and gets AGENTS.md pointing at `.ai/` — which is not there, because the default `--hidden`
+mode gitignores the entire directory. Running `init` gives them a fresh empty framework,
+not the one carrying the first developer's work.
+
+The framework ships 16,338 lines across 35 files. Of those, 13,477 lines (13 files) are
+framework-owned — SYSTEM.md, KNOWLEDGE.md, PROMPTS.md, the shipped kernel that does
+not change per project. The other 2,861 lines (22 files) are project-owned — context,
+decisions, memory, and working directories that *do* accumulate project-specific facts.
+
+A team needs the project half shared and the framework half local. Committing all of
+`.ai/` bloats every diff with 13k lines of stable prose; hiding all of it loses the
+decisions and memory the first developer invested.
+
+### Decision
+
+Add `--share` mode alongside the existing `--hidden` default. Share mode writes a
+selective `.gitignore` block:
+
+```gitignore
+.ai/*
+!.ai/PROJECT_CONTEXT.md
+!.ai/DECISIONS.md
+!.ai/memory/
+!.ai/architecture/
+!.ai/.gatecraft-manifest.json
+```
+
+The framework-owned files stay out of git; the project-owned files and the manifest are
+committed. A teammate cloning the repo gets the shared context and can run
+`gatecraft doctor --fix` to restore the 13 missing framework files without overwriting
+the 13 project files that travelled.
+
+### Consequences
+
+**Positive:**
+- Context and decisions propagate to the team on clone, not lost to each developer's local `.ai/`.
+- Diffs stay clean — the 13k-line kernel is never committed.
+- Version skew is detectable: the manifest records the framework version, so `status`
+  can warn a teammate if their local CLI is ahead or behind.
+
+**Negative:**
+- A pre-existing `.ai/` or `/.ai/` rule in `.gitignore` silently defeats every negation
+  (git cannot re-include a file inside an excluded directory). `init --share` now checks
+  for this conflict and warns loudly rather than falsely claiming success.
+- The manifest is now committed, which exposes the framework version and installation
+  timestamp to the repository. Not sensitive, but visible.
+
+### Alternatives Considered
+
+1. **Commit nothing (status quo before this ADR).** Simple, but loses all project
+   knowledge on clone.
+2. **Commit everything.** Also simple, but 13k lines in every diff is untenable.
+3. **Add `gatecraft sync` to push/pull shared content to a backend.** Adds a dependency
+   and a new failure mode; rejected for v1.
+4. **Treat `.ai/` like `.vscode/` — personal notes only.** Makes AGENTS.md a lie (it
+   claims the framework is shared), and forces every developer to re-fill context
+   independently.
+
+### Revisit Triggers
+
+- A team reports that shared memory drifted from the codebase and became stale faster
+  than local memory would have.
+- Version skew (different CLI versions across a team) causes a manifest conflict that
+  blocks a pull request.
+- Six months: measure whether filled-in context actually reduces the "agent guessed
+  wrong about the stack" error class.
+

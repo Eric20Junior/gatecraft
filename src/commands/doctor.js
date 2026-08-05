@@ -127,13 +127,39 @@ async function run({ flags }) {
   }
 
   // 5. Accidentally committed.
+  //
+  // In share mode, tracked project files are the entire point — context,
+  // decisions, and memory are committed so a teammate gets them on clone. Only
+  // the framework half is meant to stay out of git, so this warns on that half
+  // alone. Warning on everything would be worse than noise here: the suggested
+  // `git rm -r --cached .ai` would untrack exactly the files the mode exists to
+  // share, and the next `git commit` would delete them for everyone else.
   const staged = checkGitStaged(root);
   if (shouldHide && staged && staged.length) {
-    add(
-      'warn',
-      `${staged.length} file(s) under .ai/ are tracked by git despite being installed hidden`,
-      'git rm -r --cached .ai   # then commit'
-    );
+    const offenders =
+      m.mode === 'share'
+        ? staged.filter((f) => {
+            const rel = f.replace(/^\.ai\//, '');
+            // The manifest is shared deliberately: it is what tells a teammate's
+            // CLI that an install already exists here. It is not PROJECT_OWNED
+            // (that list governs what upgrade refuses to overwrite, and the
+            // manifest is our bookkeeping, not the user's document), so it needs
+            // naming separately rather than reclassifying and changing upgrade.
+            if (rel === '.gatecraft-manifest.json') return false;
+            return !payload.isProjectOwned(rel);
+          })
+        : staged;
+    if (offenders.length) {
+      add(
+        'warn',
+        m.mode === 'share'
+          ? `${offenders.length} framework file(s) under .ai/ are tracked by git — only project files are meant to be shared`
+          : `${offenders.length} file(s) under .ai/ are tracked by git despite being installed hidden`,
+        m.mode === 'share'
+          ? `git rm --cached ${offenders.slice(0, 3).join(' ')}   # then commit`
+          : 'git rm -r --cached .ai   # then commit'
+      );
+    }
   }
 
   // 6. Version skew.

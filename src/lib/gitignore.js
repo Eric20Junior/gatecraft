@@ -80,4 +80,41 @@ function isIgnored(root, needle = '.ai/') {
     });
 }
 
-module.exports = { BEGIN, END, ensure, remove, isIgnored, findBlock };
+/**
+ * Find a rule *outside* our block that excludes the whole `.ai/` directory.
+ *
+ * This matters only for share mode, and it matters absolutely. Git will not
+ * re-include a file inside an excluded directory: once `.ai/` itself is
+ * excluded, `!.ai/DECISIONS.md` is dead text. So a user who already had `.ai/`
+ * in their .gitignore gets a `--share` install whose every negation is inert,
+ * shares nothing, and says nothing about it — the failure this project is
+ * supposed to prevent, arriving silently. gatecraft's own repository has such a
+ * line, which is how this was found.
+ *
+ * Returns { line, text } for reporting, or null when there is no conflict.
+ */
+function conflictingRule(root) {
+  const p = paths(root).gitignore;
+  if (!fsx.exists(p)) return null;
+  const text = fsx.read(p);
+  const found = findBlock(text);
+
+  return (
+    fsx
+      .lines(text)
+      .map((raw, i) => ({ raw, i }))
+      .filter(({ raw, i }) => {
+        if (!found) return true;
+        // Offsets are cheaper to compare than re-parsing: skip our own lines.
+        const at = fsx.lines(text).slice(0, i).join('\n').length;
+        return at < found.start || at >= found.end;
+      })
+      .map(({ raw, i }) => ({ t: raw.trim(), line: i + 1, raw }))
+      // A directory exclusion, not a single-file one. `.ai/**` and `.ai/*` also
+      // exclude the directory contents wholesale, so they belong here too.
+      .filter(({ t }) => ['.ai', '.ai/', '/.ai', '/.ai/', '.ai/*', '.ai/**', '/.ai/*', '/.ai/**'].includes(t))
+      .map(({ line, raw }) => ({ line, text: raw.trim() }))[0] || null
+  );
+}
+
+module.exports = { BEGIN, END, ensure, remove, isIgnored, findBlock, conflictingRule };
