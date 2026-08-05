@@ -123,7 +123,8 @@ jobs:
           mkdir -p /tmp/reg/gatecraft/-
           npm pack --pack-destination /tmp/reg/gatecraft/- --silent
           version=$(node -p "require('./package.json').version")
-          mv /tmp/reg/gatecraft/-/*.tgz "/tmp/reg/gatecraft/-/gatecraft-${version}.tgz"
+          # npm already creates gatecraft-${version}.tgz at the destination, no mv needed
+          test -f "/tmp/reg/gatecraft/-/gatecraft-${version}.tgz" || mv /tmp/reg/gatecraft/-/*.tgz "/tmp/reg/gatecraft/-/gatecraft-${version}.tgz"
           printf '{"version":"%s"}' "$version" > /tmp/reg/gatecraft/latest
           (cd /tmp/reg && python3 -m http.server 8731 >/dev/null 2>&1 &)
           sleep 2
