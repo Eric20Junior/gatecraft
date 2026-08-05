@@ -126,8 +126,29 @@ jobs:
           # npm already creates gatecraft-${version}.tgz at the destination, no mv needed
           test -f "/tmp/reg/gatecraft/-/gatecraft-${version}.tgz" || mv /tmp/reg/gatecraft/-/*.tgz "/tmp/reg/gatecraft/-/gatecraft-${version}.tgz"
           printf '{"version":"%s"}' "$version" > /tmp/reg/gatecraft/latest
-          (cd /tmp/reg && python3 -m http.server 8731 >/dev/null 2>&1 &)
-          sleep 2
+
+          # Serve with node rather than python3: setup-node above guarantees node
+          # exists on every runner, python3 is an assumption about the image.
+          cat > /tmp/serve.js <<'SERVER'
+          const http = require('http'), fs = require('fs'), path = require('path');
+          http.createServer((req, res) => {
+            const p = path.join('/tmp/reg', decodeURIComponent(req.url.split('?')[0]));
+            fs.readFile(p, (err, buf) => {
+              if (err) { res.writeHead(404); return res.end('not found'); }
+              res.writeHead(200); res.end(buf);
+            });
+          }).listen(8731, '127.0.0.1', () => console.log('ready'));
+          SERVER
+          node /tmp/serve.js & echo $! > /tmp/serve.pid
+
+          # Wait for readiness instead of sleeping a fixed interval, which races
+          # on a loaded runner.
+          for _ in $(seq 1 50); do
+            curl -fsS http://127.0.0.1:8731/gatecraft/latest >/dev/null 2>&1 && break
+            sleep 0.2
+          done
+          curl -fsS http://127.0.0.1:8731/gatecraft/latest \
+            || { echo "::error::registry stub never came up"; exit 1; }
 
           mkdir -p /tmp/target && cd /tmp/target
           git init -q
