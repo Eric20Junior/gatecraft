@@ -62,8 +62,21 @@ jobs:
           node-version: '20'
           registry-url: 'https://registry.npmjs.org'
 
+      # npm rejects a republish of an existing version outright, which failed the
+      # whole job and skipped the GitHub release below it. Publishing by hand and
+      # then pushing the tag is a normal thing to do for a first release, so treat
+      # "already on the registry" as success and carry on to the release notes.
+      # `verify` above already refuses a tag that disagrees with package.json, so
+      # this cannot silently skip a version that was meant to be published.
       - name: Publish
-        run: npm publish --provenance --access public
+        shell: bash
+        run: |
+          version=$(node -p "require('./package.json').version")
+          if npm view "gatecraft@$version" version >/dev/null 2>&1; then
+            echo "::notice::gatecraft@$version is already on npm — skipping publish"
+          else
+            npm publish --provenance --access public
+          fi
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
