@@ -1,6 +1,6 @@
 # VERSION.md — Versioning and Compatibility
 
-**Current version: 1.0.0**
+**Current version: 1.0.1**
 
 This file governs the version of the AI Engineering Operating System itself — the
 `.ai/` directory — not the version of the project that hosts it. Those are separate
@@ -147,6 +147,7 @@ want instead of moving backwards.
 | Gatecraft version | Documents | Working directories | Kernel semantics | Notes |
 | --- | --- | --- | --- | --- |
 | 1.0.0 | 15 | 12 | Twelve-stage loop; ten scoring dimensions; 90/100 threshold; Security veto | Initial release |
+| 1.0.1 | 15 | 12 | Unchanged | Installer fixes only. No document, directory, or kernel change; no override can be affected. |
 
 Record each release here. The columns are the things an override can depend on, so a
 change in any of them is the fastest way to see whether an upgrade will cost you

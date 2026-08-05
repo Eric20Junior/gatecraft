@@ -26,6 +26,45 @@ them into a version section when the version is cut.
 
 ---
 
+## [1.0.1] — 2026-08-05
+
+Two fixes to `--share` mode, the option that lets a team commit project knowledge
+while keeping the framework kernel out of git. Both were found by installing
+gatecraft into gatecraft.
+
+**What you must do.** If you installed with `--share` on 1.0.0, run
+`npx gatecraft@latest doctor` and check what it now says. If your `.gitignore`
+already excluded `.ai/` before you installed, your project memory was never
+actually being committed — the install said it was. Remove that rule and commit
+`.ai/PROJECT_CONTEXT.md`, `.ai/DECISIONS.md`, and `.ai/memory/` to start sharing
+them for real. If you followed the earlier `git rm -r --cached .ai` advice from
+`doctor`, check whether that commit removed shared files your teammates needed.
+
+### Fixed
+
+- `gatecraft doctor` treated a `--share` install as if it were hidden. It reported
+  every shared project file as accidentally committed and advised
+  `git rm -r --cached .ai` — a command that untracks precisely the files `--share`
+  exists to share, deleting them for every teammate on the next commit. The advice
+  was the defect. `doctor` now distinguishes project-owned files from
+  framework-owned ones and reports only genuinely leaked framework files, naming
+  them individually rather than by wildcard.
+
+- `gatecraft init --share` reported `project memory shared` whether or not the
+  share worked. Git will not re-include a file inside an excluded directory, so a
+  pre-existing `.ai/` or `/.ai/` rule in `.gitignore` makes every negation the
+  installer writes inert. The install would claim success while committing nothing,
+  and a team could discover months later that no context had ever been shared.
+  `init` now detects the conflicting rule, reports its line number and text, and
+  states plainly that project memory is not shared.
+
+### Changed
+
+- Share-mode tests now assert what `git` would actually commit rather than that the
+  `.gitignore` contains a negation. The previous test passed against both bugs.
+
+---
+
 ## [1.0.0] — 2026-08-04
 
 Initial release. The complete AI Engineering Operating System: 15 top-level documents
