@@ -160,7 +160,9 @@ if [ -d "$DIR" ]; then
     ok "existing .ai/memory/ preserved"
   fi
   for keep in PROJECT_CONTEXT.md DECISIONS.md; do
-    [ -f "$DIR/$keep" ] && cp "$DIR/$keep" "$STAGE/$keep" 2>/dev/null || true
+    if [ -f "$DIR/$keep" ]; then
+      cp "$DIR/$keep" "$STAGE/$keep" 2>/dev/null || true
+    fi
   done
   for keep in standards workflows prompts architecture research planning reviews metrics evaluation; do
     if [ -d "$DIR/$keep" ]; then

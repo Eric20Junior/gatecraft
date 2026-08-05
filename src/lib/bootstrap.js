@@ -117,7 +117,7 @@ function ensure(root, { version, detected, file = paths(root).bootstrap } = {}) 
 
   // Existing file, no block: insert after the first heading so the user's own
   // title stays first, otherwise at the very top.
-  const lines = existing.split('\n');
+  const lines = fsx.lines(existing);
   const h1 = lines.findIndex((l) => /^#\s/.test(l));
   const at = h1 === -1 ? 0 : h1 + 1;
   lines.splice(at, 0, '', next, '');

@@ -96,7 +96,7 @@ const DISCUSSES_MARKERS = /`TODO`|"TODO|TODO: document this|placeholder, TODO, o
 for (const rel of files) {
   if (!rel.endsWith('.md')) continue;
   const text = fs.readFileSync(path.join(payloadDir, rel), 'utf8');
-  const lines = text.split('\n');
+  const lines = text.split(/\r?\n/);
   checks++;
 
   let fenced = false;

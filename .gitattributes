@@ -1,0 +1,17 @@
+# Git checks text files out with CRLF on Windows by default. This framework is a
+# hypertext whose parsers key off line structure, and a stray \r turns every
+# heading regex into a silent no-match — the anchors vanish rather than erroring.
+# The parsers tolerate CRLF regardless (a user's own AGENTS.md may well have it),
+# but the shipped payload has no reason to vary by platform.
+* text=auto eol=lf
+
+# install.sh is run by sh. CRLF makes the shebang unparseable and every line a
+# syntax error, so this one is not merely a preference.
+*.sh text eol=lf
+
+# Binaries must never be touched.
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.tgz binary

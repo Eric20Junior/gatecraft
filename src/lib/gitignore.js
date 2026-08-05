@@ -73,7 +73,7 @@ function isIgnored(root, needle = '.ai/') {
   if (!fsx.exists(p)) return false;
   return fsx
     .read(p)
-    .split('\n')
+    .split(/\r?\n/)
     .some((l) => {
       const t = l.trim();
       return t === needle || t === needle.replace(/\/$/, '') || t === `/${needle}`;

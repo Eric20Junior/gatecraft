@@ -38,7 +38,7 @@ ${ui.color.bold('WHY A COMMAND')}
 /** Split CHECKLISTS.md into its `## N. Name checklist` sections. */
 function parse(text) {
   const out = [];
-  const lines = text.split('\n');
+  const lines = fsx.lines(text);
   let current = null;
   let fenced = false;
 
@@ -112,7 +112,7 @@ async function run({ flags, args }) {
   ui.out('');
   ui.out(`${ui.color.bold(`${found.number}. ${found.title}`)}  ${ui.color.dim(`${found.items} items`)}`);
   ui.out('');
-  for (const line of found.body.split('\n')) {
+  for (const line of fsx.lines(found.body)) {
     if (/^- \[ \]/.test(line)) ui.out(`  ${ui.color.dim('[ ]')} ${line.slice(6)}`);
     else if (/^\*\*/.test(line)) ui.out(`  ${ui.color.bold(line.replace(/\*\*/g, ''))}`);
     else ui.out(line ? `  ${line}` : '');

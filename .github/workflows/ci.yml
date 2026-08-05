@@ -48,6 +48,36 @@ jobs:
       - name: Test
         run: npm test
 
+  # A Windows checkout converts text files to CRLF, which is how the heading
+  # parsers came to match nothing while every job on Linux stayed green. Running
+  # that conversion explicitly on Linux makes the whole class reproducible in
+  # seconds, locally and here, instead of only on a Windows runner.
+  crlf:
+    name: CRLF checkout
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Convert the working tree to CRLF
+        run: |
+          set -eu
+          find . -path ./.git -prune -o -type f \
+            \( -name '*.md' -o -name '*.json' -o -name '*.yml' \) -print |
+            while IFS= read -r f; do
+              sed -i 's/$/\r/' "$f"
+            done
+          file payload/SYSTEM.md
+
+      - name: Test
+        run: npm test
+
+      - name: Verify the payload still parses
+        run: |
+          node -e "const links = require('./src/lib/links.js'); const r = links.check('payload'); if (r.broken.length) { console.error('::error::' + r.broken.length + ' broken links under CRLF'); process.exit(1); } console.log('links resolve under CRLF: ' + r.checked + ' checked');"
+
   payload:
     name: verify payload
     runs-on: ubuntu-latest

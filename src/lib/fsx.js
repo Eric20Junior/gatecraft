@@ -112,6 +112,19 @@ function pruneEmpty(dir, stopAt) {
   }
 }
 
+/**
+ * Split text into lines, tolerating CRLF.
+ *
+ * Git checks these files out with CRLF endings on Windows by default, and a bare
+ * `split('\n')` leaves a trailing `\r` on every line. That `\r` is invisible in
+ * output but defeats any regex anchored with `$` — `/^(#{1,6})\s+(.*)$/` matches
+ * nothing, so every heading, anchor, and checklist section silently disappears
+ * rather than erroring. Splitting on both is what keeps the parsers honest.
+ */
+function lines(text) {
+  return text.split(/\r?\n/);
+}
+
 module.exports = {
   walk,
   walkDirs,
@@ -127,4 +140,5 @@ module.exports = {
   rimraf,
   assertInside,
   pruneEmpty,
+  lines,
 };

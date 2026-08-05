@@ -39,7 +39,7 @@
     "TRADEMARK.md"
   ],
   "scripts": {
-    "test": "node --test test/",
+    "test": "node scripts/run-tests.js",
     "lint": "node --check bin/gatecraft.js && node -e \"require('fs').readdirSync('src',{recursive:true}).filter(f=>f.endsWith('.js')).forEach(f=>require('child_process').execFileSync(process.execPath,['--check','src/'+f]))\"",
     "verify:payload": "node scripts/verify-payload.js",
     "prepublishOnly": "npm run lint && npm test && npm run verify:payload"

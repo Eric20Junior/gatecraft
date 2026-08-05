@@ -106,7 +106,7 @@ function unfilled(aiDir) {
   const total = (text.match(/\{\{/g) || []).length;
   const sections = [];
   let current = null;
-  for (const line of text.split('\n')) {
+  for (const line of fsx.lines(text)) {
     const m = /^##\s+(\d+\.\s+.*)$/.exec(line);
     if (m) {
       current = { name: m[1].trim(), placeholders: 0 };

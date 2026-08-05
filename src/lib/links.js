@@ -34,7 +34,7 @@ function anchorsOf(text) {
   const set = new Set();
   let fenced = false;
 
-  for (const line of text.split('\n')) {
+  for (const line of fsx.lines(text)) {
     if (/^\s*(```|~~~)/.test(line)) {
       fenced = !fenced;
       continue;
@@ -76,7 +76,7 @@ function check(rootDir) {
     const abs = path.join(rootDir, rel);
     const text = fsx.read(abs);
     let fenced = false;
-    const lines = text.split('\n');
+    const lines = fsx.lines(text);
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
