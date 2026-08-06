@@ -1,8 +1,11 @@
 #!/bin/sh
 # gatecraft installer — for projects without Node, or without a Node you want to use.
 #
-#   curl -fsSL https://gatecraft.dev/install.sh | sh
-#   curl -fsSL https://gatecraft.dev/install.sh | sh -s -- --version 1.2.0
+# The short https://gatecraft.dev/install.sh URL is not live yet; use the raw
+# GitHub URL until that domain is registered and serving this file.
+#
+#   curl -fsSL https://raw.githubusercontent.com/Eric20Junior/gatecraft/main/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/Eric20Junior/gatecraft/main/install.sh | sh -s -- --version 1.2.0
 #
 # What this does: downloads the gatecraft release tarball, extracts the framework
 # payload into ./.ai, adds `.ai/` to .gitignore, and writes an AGENTS.md bootstrap
@@ -47,8 +50,8 @@ usage() {
 ${B}gatecraft${R} — install the AI Engineering Operating System into this project
 
 ${B}USAGE${R}
-  curl -fsSL https://gatecraft.dev/install.sh | sh
-  curl -fsSL https://gatecraft.dev/install.sh | sh -s -- [options]
+  curl -fsSL https://raw.githubusercontent.com/Eric20Junior/gatecraft/main/install.sh | sh
+  curl -fsSL https://raw.githubusercontent.com/Eric20Junior/gatecraft/main/install.sh | sh -s -- [options]
 
 ${B}OPTIONS${R}
   --version <v>    Install a specific version (default: latest)
@@ -126,7 +129,7 @@ say ""
 if [ -e "$DIR" ] && [ "$FORCE" -eq 0 ]; then
   if [ -f "$DIR/.gatecraft-manifest.json" ]; then
     die "gatecraft is already installed here.
-  Upgrade with: curl -fsSL https://gatecraft.dev/install.sh | sh -s -- --force
+  Upgrade with: curl -fsSL https://raw.githubusercontent.com/Eric20Junior/gatecraft/main/install.sh | sh -s -- --force
   Or, with Node: npx gatecraft upgrade"
   fi
   die "$DIR/ already exists and was not created by gatecraft.

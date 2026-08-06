@@ -9,6 +9,8 @@ const COMMANDS = {
   status: { file: './commands/status.js', blurb: 'Show what is installed and how healthy it is' },
   doctor: { file: './commands/doctor.js', blurb: 'Check the install for problems and fix what is safe' },
   checklist: { file: './commands/checklist.js', blurb: 'Print a quality gate checklist to run' },
+  standard: { file: './commands/standard.js', blurb: 'Print one section of the engineering standards' },
+  prompt: { file: './commands/prompt.js', blurb: 'Print one prompt from the library' },
   uninstall: { file: './commands/uninstall.js', blurb: 'Remove the framework and everything it added' },
   eject: { file: './commands/eject.js', blurb: 'Stop managing the install; keep the files, commit them' },
 };
@@ -26,7 +28,7 @@ const ALIASES = {
 
 // Flags that take a value. Everything else is boolean, which keeps parsing honest:
 // `--dir` without this list would silently swallow the next argument.
-const VALUED = new Set(['dir', 'name']);
+const VALUED = new Set(['dir', 'name', 'category']);
 
 function parse(argv) {
   const flags = {};

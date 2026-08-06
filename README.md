@@ -54,6 +54,29 @@ It puts a complete engineering framework in your project — **16,300+ lines acr
 | **62 prompts, 38 templates, 22 playbooks** | For the work that recurs — a PRD, a threat model, an ADR, a postmortem, responding to an incident, paying down debt. |
 | **Persistent memory** | `.ai/memory/` carries decisions, bugs, lessons, and debt between sessions, so your agent stops relitigating settled questions. |
 
+The loop is the part worth seeing. Solid arrows are the happy path; dotted arrows
+are the gates sending work backwards, which is the behaviour an agent left to
+itself does not have.
+
+```mermaid
+flowchart LR
+  A(Understand) --> B(Research) --> C(Plan) --> D(Design)
+  D --> E(Implement) --> F{{Review}} --> G{{Critique}}
+  G --> H(Improve) --> I{{Validate}} --> J{{Test}}
+  J --> K(Document) --> L{{Evaluate}}
+  L --> M([Done])
+
+  F -.->|defect found| E
+  I -.->|no evidence| H
+  J -.->|test fails| E
+  L -.->|score below 90| C
+
+  classDef gate fill:#fde68a,stroke:#b45309,color:#1c1917
+  classDef done fill:#bbf7d0,stroke:#15803d,color:#1c1917
+  class F,G,I,J,L gate
+  class M done
+```
+
 ## Install
 
 **With Node 18+ (recommended):**
@@ -65,6 +88,10 @@ npx gatecraft init
 This detects your stack and pre-fills `PROJECT_CONTEXT.md` with it, then gives you
 `upgrade`, `status`, and `doctor`.
 
+<!-- Hidden until gatecraft.dev is registered and serving install.sh. Restore this
+     section once the domain is live; install.sh itself is unchanged and still ships
+     in the package.
+
 **Without Node:**
 
 ```sh
@@ -73,6 +100,8 @@ curl -fsSL https://gatecraft.dev/install.sh | sh
 
 Same framework, no Node required. POSIX sh; works on macOS, Alpine, and Debian.
 It writes only inside the current directory and installs no global binary.
+
+-->
 
 **Globally, if you install into projects often:**
 
@@ -214,8 +243,21 @@ npx gatecraft init --share    # commit PROJECT_CONTEXT.md, ADRs and memory; igno
 | `gatecraft upgrade` | Update the framework, preserving everything you wrote. |
 | `gatecraft doctor` | Verify every file is present and all ~1,150 cross-references resolve. |
 | `gatecraft checklist [name]` | Print a quality gate. `--md` to pipe into a PR. |
+| `gatecraft standard [topic]` | Print one of the 25 standards sections, not all 25. |
+| `gatecraft prompt [name]` | Print one of the 62 prompts, ready to fill in and send. |
 | `gatecraft eject` | Keep the files, drop the tooling. No lock-in. |
 | `gatecraft uninstall` | Remove everything, including our `.gitignore` and `AGENTS.md` blocks. |
+
+The three retrieval commands exist for the same reason: these documents are
+reference works, and an agent that reads all of `STANDARDS.md` to apply one
+section has spent ~11,000 tokens of its context to get ~1,200 tokens of answer.
+`gatecraft standard security --md` returns the section alone.
+
+```sh
+gatecraft standard api --md          # one section, not the other 24
+gatecraft prompt write-an-adr --md   # one prompt, not the other 61
+gatecraft prompt --category backend  # what is available, before choosing
+```
 
 ## Upgrades will not eat your work
 

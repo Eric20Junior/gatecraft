@@ -42,6 +42,20 @@ ${stack ? `\nStack: ${stack}. Confirm against \`.ai/PROJECT_CONTEXT.md\` before 
 If \`.ai/\` is missing, the framework is not installed. Say so rather than
 improvising, and run \`npx gatecraft init\`.
 
+### Read one section, not the whole document
+
+\`STANDARDS.md\`, \`CHECKLISTS.md\`, and \`PROMPTS.md\` are reference works. Pull the
+section you need instead of reading the file and searching it:
+
+\`\`\`sh
+gatecraft standard security --md     # one of 25 sections
+gatecraft checklist release --md     # one of 20 gates
+gatecraft prompt write-an-adr --md   # one of 62 prompts
+\`\`\`
+
+Run any of the three with no argument to see what exists. If \`gatecraft\` is not on
+PATH, use \`npx gatecraft\`, or read the file — but read only the section.
+
 ### The loop is not optional
 
 Every non-trivial task runs the **Universal Engineering Loop** in

@@ -26,6 +26,36 @@ them into a version section when the version is cut.
 
 ---
 
+## [1.1.0] — 2026-08-06
+
+Two retrieval commands, so an agent can pull one section instead of reading a whole
+document. `PROMPTS.md` is 114 KB and `STANDARDS.md` is 46 KB; an agent that needed one
+prompt had to load all 62 and search, which wastes context on small-window models and
+risks truncation on any of them. `gatecraft checklist` already solved this for
+checklists — this extends the same pattern to standards and prompts.
+
+**What you must do.** Nothing is required; both commands are additive and no document,
+section number, or anchor changed. To let your agent use them, run
+`npx gatecraft@latest upgrade` to pick up the new `AGENTS.md` bootstrap section that
+names them. If you customized `AGENTS.md` outside the managed marker block, your edits
+are preserved.
+
+### Added
+
+- `gatecraft standard <topic>` prints one section of `STANDARDS.md`. Run it bare to
+  list the 25 topics. `--md` emits raw markdown for piping into a prompt.
+- `gatecraft prompt <name>` prints one prompt from `PROMPTS.md`. Run it bare to list
+  all 62 grouped by category, or `--category <name>` to list one category.
+- Both resolve a query by section number, exact slug, unique prefix, then substring,
+  and read your installed `.ai/` copy before the packaged defaults — so local edits to
+  a standard are what you get back. An ambiguous query lists the matches and exits
+  non-zero rather than guessing.
+- `AGENTS.md` gained a "Read one section, not the whole document" section listing all
+  three retrieval commands, with a fallback for agents that cannot run shell commands.
+  Previously none of them were mentioned in the bootstrap at all.
+
+---
+
 ## [1.0.1] — 2026-08-05
 
 Two fixes to `--share` mode, the option that lets a team commit project knowledge
