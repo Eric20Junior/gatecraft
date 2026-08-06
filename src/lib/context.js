@@ -103,7 +103,6 @@ function unfilled(aiDir) {
   const file = path.join(aiDir, 'PROJECT_CONTEXT.md');
   if (!fsx.exists(file)) return null;
   const text = fsx.read(file);
-  const total = (text.match(/\{\{/g) || []).length;
   const sections = [];
   let current = null;
   for (const line of fsx.lines(text)) {
@@ -115,6 +114,11 @@ function unfilled(aiDir) {
       current.placeholders += (line.match(/\{\{/g) || []).length;
     }
   }
+  // Count only what falls inside a numbered section. The preamble explains what a
+  // `{{placeholder}}` is and contains one as an example, so counting the whole file
+  // left a fully-filled context reporting one placeholder across zero sections —
+  // permanently, with nothing the user could edit to clear it.
+  const total = sections.reduce((n, s) => n + s.placeholders, 0);
   return { total, sections: sections.filter((s) => s.placeholders > 0) };
 }
 

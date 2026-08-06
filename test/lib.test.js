@@ -8,6 +8,7 @@ const h = require('./helpers.js');
 const links = require(path.join(h.ROOT, 'src', 'lib', 'links.js'));
 const detect = require(path.join(h.ROOT, 'src', 'lib', 'detect.js'));
 const payload = require(path.join(h.ROOT, 'src', 'lib', 'payload.js'));
+const context = require(path.join(h.ROOT, 'src', 'lib', 'context.js'));
 
 // ------------------------------------------------------------------ links ----
 
@@ -133,4 +134,31 @@ test('stats counts framework documents, not every shipped file', () => {
   assert.strictEqual(s.docs, docs, 'docs counts only .md files');
   assert.ok(s.files > s.docs, 'files includes the non-markdown licence');
   assert.ok(s.lines > 10000, `expected the full framework, got ${s.lines} lines`);
+});
+
+// ---------------------------------------------------------------- context ----
+
+test('unfilled counts placeholders in sections, not the preamble explaining them', (t) => {
+  const fs = require('fs');
+  const dir = h.project({}, { git: false });
+  t.after(() => h.cleanup(dir));
+  const ai = path.join(dir, '.ai');
+  fs.mkdirSync(ai, { recursive: true });
+  const file = path.join(ai, 'PROJECT_CONTEXT.md');
+
+  // The template's own instructions contain a `{{placeholder}}` as an example of
+  // what a placeholder looks like. Counting it made a fully-filled context report
+  // one unfilled field forever, with no edit the user could make to clear it.
+  const preamble = 'An agent reading `{{placeholder}}` will stop, or guess.\n\n';
+
+  fs.writeFileSync(file, `${preamble}## 1. Identity\n\nName: gatecraft\n\n## 4. Technology\n\nRuntime: Node 18\n`);
+  const done = context.unfilled(ai);
+  assert.strictEqual(done.total, 0, 'a filled context reports zero, not one');
+  assert.deepStrictEqual(done.sections, [], 'and names no section to go and fix');
+
+  fs.writeFileSync(file, `${preamble}## 1. Identity\n\nName: {{}}\n\n## 4. Technology\n\nRuntime: Node 18\n`);
+  const partial = context.unfilled(ai);
+  assert.strictEqual(partial.total, 1, 'a genuinely unfilled field still counts');
+  assert.strictEqual(partial.sections.length, 1, 'and is attributed to its section');
+  assert.match(partial.sections[0].name, /Identity/);
 });
