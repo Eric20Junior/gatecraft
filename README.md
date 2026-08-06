@@ -199,7 +199,7 @@ in it is a fact your agent will otherwise guess at, and guesses about your
 database or your auth model are where bad code comes from.
 
 ```sh
-npx gatecraft status     # counts what is still unfilled
+npx gatecraft status     # counts what is still unfilled.
 ```
 
 `init` pre-fills what it can detect from your manifests and marks each one
