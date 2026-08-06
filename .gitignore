@@ -31,6 +31,29 @@ npm-debug.log*
 .env.*
 !.env.example
 
-# This repository *is* gatecraft, so a self-install here would be confusing rather
-# than useful. Ignore one if it appears from testing.
-/.ai/
+# This repository *is* gatecraft, and it now runs on itself. The framework kernel
+# under .ai/ stays ignored — payload/ is its source of truth and a committed copy
+# would only drift from it. Project-owned files are committed, per --share below.
+
+# >>> gatecraft >>>
+# Managed by gatecraft. Remove with: gatecraft uninstall
+# The framework itself is machine-generated — reinstall it with `npx gatecraft init`.
+.ai/*
+.ai/checklists/
+.ai/evaluation/
+.ai/metrics/
+.ai/planning/
+.ai/prompts/
+.ai/research/
+.ai/reviews/
+.ai/standards/
+.ai/templates/
+.ai/workflows/
+
+# Project knowledge is shared: context, decisions, memory, architecture.
+!.ai/PROJECT_CONTEXT.md
+!.ai/DECISIONS.md
+!.ai/memory/
+!.ai/architecture/
+!.ai/.gatecraft-manifest.json
+# <<< gatecraft <<<

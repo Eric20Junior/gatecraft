@@ -1,0 +1,170 @@
+{
+  "schema": 1,
+  "name": "gatecraft",
+  "version": "1.1.0",
+  "installedAt": "2026-08-06T20:42:51.525Z",
+  "upgradedAt": null,
+  "files": {
+    "AGENTS.md": {
+      "hash": "a3b82342d1c4c193",
+      "kind": "framework"
+    },
+    "CHANGELOG.md": {
+      "hash": "b72c3532616edaa4",
+      "kind": "framework"
+    },
+    "CHECKLISTS.md": {
+      "hash": "f08c949f62ca64e3",
+      "kind": "framework"
+    },
+    "DECISIONS.md": {
+      "hash": "95b19b4ff229d6a2",
+      "kind": "project"
+    },
+    "GLOSSARY.md": {
+      "hash": "c37068af79a42774",
+      "kind": "framework"
+    },
+    "KNOWLEDGE.md": {
+      "hash": "75fd3904f10235fb",
+      "kind": "framework"
+    },
+    "LICENSE": {
+      "hash": "4f6259015ce46995",
+      "kind": "framework"
+    },
+    "PLAYBOOKS.md": {
+      "hash": "489f808012b372ea",
+      "kind": "framework"
+    },
+    "PROJECT_CONTEXT.md": {
+      "hash": "2a17dcd0fc6542b7",
+      "kind": "project"
+    },
+    "PROMPTS.md": {
+      "hash": "1b2cdf6dfa54dc04",
+      "kind": "framework"
+    },
+    "README.md": {
+      "hash": "c9576ec016880519",
+      "kind": "framework"
+    },
+    "STANDARDS.md": {
+      "hash": "540b7a68928a254f",
+      "kind": "framework"
+    },
+    "SYSTEM.md": {
+      "hash": "24a11c2748fcb42e",
+      "kind": "framework"
+    },
+    "TEMPLATES.md": {
+      "hash": "5b3aaadbf79a6a4f",
+      "kind": "framework"
+    },
+    "VERSION.md": {
+      "hash": "93645adced8f1ec6",
+      "kind": "framework"
+    },
+    "WORKFLOW.md": {
+      "hash": "7ffe3126ae7ee13a",
+      "kind": "framework"
+    },
+    "architecture/README.md": {
+      "hash": "683339aa9e131e8a",
+      "kind": "project"
+    },
+    "architecture/system-overview.md": {
+      "hash": "b414fa86202baf3e",
+      "kind": "project"
+    },
+    "checklists/README.md": {
+      "hash": "69643c716e1580cf",
+      "kind": "project"
+    },
+    "evaluation/README.md": {
+      "hash": "755f6c2fed80073e",
+      "kind": "project"
+    },
+    "memory/README.md": {
+      "hash": "74d5b47205437747",
+      "kind": "project"
+    },
+    "memory/bugs.md": {
+      "hash": "9a9ad3901ca6038e",
+      "kind": "project"
+    },
+    "memory/completed-work.md": {
+      "hash": "0a7101e6d8bc9495",
+      "kind": "project"
+    },
+    "memory/decisions.md": {
+      "hash": "cd3532c4b9e3ceb8",
+      "kind": "project"
+    },
+    "memory/future-ideas.md": {
+      "hash": "a629dcd0d786da64",
+      "kind": "project"
+    },
+    "memory/lessons-learned.md": {
+      "hash": "bae003026e4b182a",
+      "kind": "project"
+    },
+    "memory/project-memory.md": {
+      "hash": "24e3e67dc21b2692",
+      "kind": "project"
+    },
+    "memory/technical-debt.md": {
+      "hash": "9f2690186a0cd5c9",
+      "kind": "project"
+    },
+    "metrics/README.md": {
+      "hash": "ae9d3587379ae524",
+      "kind": "project"
+    },
+    "planning/README.md": {
+      "hash": "4927a744dc304615",
+      "kind": "project"
+    },
+    "prompts/README.md": {
+      "hash": "3c5b9a2971399b42",
+      "kind": "project"
+    },
+    "research/README.md": {
+      "hash": "ad23e0b475c245c9",
+      "kind": "project"
+    },
+    "reviews/README.md": {
+      "hash": "3dbdbf35e0039c45",
+      "kind": "project"
+    },
+    "standards/README.md": {
+      "hash": "aaacf8610006e755",
+      "kind": "project"
+    },
+    "templates/README.md": {
+      "hash": "374171092f9d1a0f",
+      "kind": "project"
+    },
+    "workflows/README.md": {
+      "hash": "5c76396cbcf881e2",
+      "kind": "project"
+    }
+  },
+  "modified": [],
+  "gitignore": {
+    "managed": true,
+    "mode": "share"
+  },
+  "bootstrap": {
+    "managed": true,
+    "hash": "d59c79d418a5b829"
+  },
+  "mode": "share",
+  "detected": {
+    "languages": [
+      "JavaScript"
+    ],
+    "frameworks": [],
+    "at": "2026-08-06"
+  }
+}
