@@ -66,6 +66,21 @@ async function run({ flags }) {
     return 0;
   }
 
+  // A `.ai/` with no manifest was either ejected or never installed by this CLI.
+  // Either way we have no record of what we put there, so every file in it has to
+  // be assumed to be the user's — `eject` exists precisely to make them so, and it
+  // promises uninstall will no longer touch them. Deleting the tree here would take
+  // heavily customized documents with it and leave nothing to restore from.
+  if (!m) {
+    ui.fail(`.ai/ at ${root} is not a managed install — nothing to uninstall`);
+    ui.out('');
+    ui.out(`  ${ui.color.dim('There is no install manifest, so this was ejected or created by hand.')}`);
+    ui.out(`  ${ui.color.dim('Those files are yours: remove them with `rm -rf .ai` if that is what')}`);
+    ui.out(`  ${ui.color.dim('you want, or run `gatecraft init --force` to manage them again.')}`);
+    ui.out('');
+    return 1;
+  }
+
   const hasMemory = memoryHasContent(p.ai);
   const keepMemory = flags.purge ? false : flags['keep-memory'] !== false && hasMemory;
 
