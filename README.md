@@ -58,13 +58,22 @@ The loop is the part worth seeing. Solid arrows are the happy path; dotted arrow
 are the gates sending work backwards, which is the behaviour an agent left to
 itself does not have.
 
+<div align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Eric20Junior/gatecraft/main/.github/assets/workflow-loop-dark.svg">
+  <img src="https://raw.githubusercontent.com/Eric20Junior/gatecraft/main/.github/assets/workflow-loop.svg" alt="The twelve-stage loop: Understand, Research, Plan, Design, Implement, Review, Critique, Improve, Validate, Test, Document, Evaluate, Done. Review sends work back to Implement when a defect is found, Test sends it back to Implement when a test fails, Validate sends it back to Improve when there is no evidence, and Evaluate sends it back to Plan when the readiness score is below 90." width="460">
+</picture>
+</div>
+
+<details>
+<summary>Diagram source (Mermaid)</summary>
+
 ```mermaid
-flowchart LR
+flowchart TB
   A(Understand) --> B(Research) --> C(Plan) --> D(Design)
   D --> E(Implement) --> F{{Review}} --> G{{Critique}}
   G --> H(Improve) --> I{{Validate}} --> J{{Test}}
-  J --> K(Document) --> L{{Evaluate}}
-  L --> M([Done])
+  J --> K(Document) --> L{{Evaluate}} --> M([Done])
 
   F -.->|defect found| E
   I -.->|no evidence| H
@@ -76,6 +85,8 @@ flowchart LR
   class F,G,I,J,L gate
   class M done
 ```
+
+</details>
 
 ## Install
 
