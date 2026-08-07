@@ -1,6 +1,6 @@
 # AI Engineering Operating System (Gatecraft)
 
-Version 1.1.0 — see [VERSION.md](VERSION.md) and [CHANGELOG.md](CHANGELOG.md).
+Version 1.1.1 — see [VERSION.md](VERSION.md) and [CHANGELOG.md](CHANGELOG.md).
 
 The Gatecraft is a technology-agnostic operating system for AI coding agents and the
 humans who work with them. Copy the `.ai/` folder into any repository and agents

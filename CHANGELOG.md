@@ -12,6 +12,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
 
 ## [Unreleased]
 
+Nothing yet.
+
+---
+
+## [1.1.1] — 2026-08-07
+
+Two fixes found by running gatecraft on gatecraft. The framework documents are
+untouched, so an upgrade costs nothing.
+
 ### Added
 
 - Test coverage for `gatecraft eject`: refusal without `--yes`, that every document
@@ -27,6 +36,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/). Versioning follo
   who ejected to keep heavily customized documents and later ran `uninstall` lost
   them, with no manifest left to restore from. Uninstall now refuses on any `.ai/`
   it has no manifest for, whether that came from `eject` or was written by hand.
+
+- `status` and `doctor` reported one unfilled placeholder on a fully filled
+  `PROJECT_CONTEXT.md`, attributed to no section — so there was nothing you could
+  edit to clear it. The preamble explains what a `{{placeholder}}` is and contains
+  one as an example; it was being counted. Only placeholders inside a numbered
+  section count now.
 
 ### Changed
 

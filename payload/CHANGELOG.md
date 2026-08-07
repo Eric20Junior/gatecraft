@@ -26,6 +26,19 @@ them into a version section when the version is cut.
 
 ---
 
+## [1.1.1] — 2026-08-07
+
+No change to any framework document. This release exists for two CLI fixes, one of
+which could destroy an ejected `.ai/` tree; see the
+[CLI changelog](https://github.com/Eric20Junior/gatecraft/blob/main/CHANGELOG.md) for
+those.
+
+**What you must do.** Nothing to the documents. If you have ever run
+`gatecraft eject`, upgrade the CLI before running `uninstall` again —
+`npx gatecraft@latest` is enough, since the tool is not installed into your project.
+
+---
+
 ## [1.1.0] — 2026-08-06
 
 Two retrieval commands, so an agent can pull one section instead of reading a whole

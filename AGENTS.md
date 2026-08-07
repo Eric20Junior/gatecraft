@@ -5,7 +5,7 @@ Instructions for AI coding agents working in this repository.
 <!-- >>> gatecraft >>> -->
 ## Engineering operating system
 
-This repository runs the **AI Engineering Operating System v1.1.0**. The full
+This repository runs the **AI Engineering Operating System v1.1.1**. The full
 framework is installed at `.ai/` — hidden and git-ignored, but present. Read it.
 
 Stack: JavaScript. Confirm against `.ai/PROJECT_CONTEXT.md` before relying on it.
@@ -68,6 +68,6 @@ project rules in `.ai/standards/`, project workflows in `.ai/workflows/`, projec
 prompts in `.ai/prompts/`, and any deliberate exception in
 `.ai/PROJECT_CONTEXT.md#12-overrides-and-exceptions` with an owner and a reason.
 
-<sub>Managed by [gatecraft](https://github.com/Eric20Junior/gatecraft) v1.1.0. Edits inside this
+<sub>Managed by [gatecraft](https://github.com/Eric20Junior/gatecraft) v1.1.1. Edits inside this
 block are overwritten on upgrade — write yours outside it.</sub>
 <!-- <<< gatecraft <<< -->

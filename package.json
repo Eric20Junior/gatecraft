@@ -1,6 +1,6 @@
 {
   "name": "gatecraft",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "The AI Engineering Operating System — install a complete engineering loop, quality gates, and 26 specialist roles into any repository. Hidden, gitignored, zero dependencies.",
   "keywords": [
     "ai",
